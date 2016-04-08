@@ -1,9 +1,11 @@
 -module(event).
 -compile(export_all).
--record(state,  {server,name="",to_go=0}).
+-record(state,  {server,
+                 name="",
+                 to_go=0} ).
 
 loop(S = #state{server=Server}) ->
-    receiver
+    receive
         {Server, Ref, cancel} ->
             Server ! {Ref, ok}
     after S#state.to_go*1000 ->
